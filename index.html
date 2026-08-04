@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in · EduManage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="login">
+
+<div class="auth-shell">
+
+  <div class="auth-visual">
+    <div class="content">
+      <div class="brand"><span class="seal">E</span>EduManage</div>
+      <p class="tagline">One place for enrolment, timetables, assignments and fees — kept in order, always up to date.</p>
+    </div>
+    <div class="ledger-stats">
+      <div><b>Students</b><span>Courses, materials, grades</span></div>
+      <div><b>Teachers</b><span>Classes, grading, attendance</span></div>
+      <div><b>Admins</b><span>Full institutional control</span></div>
+    </div>
+  </div>
+
+  <div class="auth-panel">
+    <div class="auth-card">
+      <span class="eyebrow">Educational Management System</span>
+      <h1>Sign in to your account</h1>
+      <p class="sub">Enter your credentials to reach your dashboard.</p>
+
+      <div class="alert alert-danger" id="loginError" style="display:none;">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span></span>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="loginEmail">Email address</label>
+          <input type="email" id="loginEmail" required placeholder="you@edumanage.lk" autocomplete="username">
+          <div class="hint">Enter a valid email address.</div>
+        </div>
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="loginPassword" required placeholder="••••••••" autocomplete="current-password">
+            <button type="button" class="toggle-pass" id="togglePass">Show</button>
+          </div>
+          <div class="hint">Enter your password.</div>
+        </div>
+
+        <div class="d-flex" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-size:13.5px;">
+          <label style="display:flex; align-items:center; gap:7px; color:var(--ink-soft); cursor:pointer;">
+            <input type="checkbox" id="rememberMe" style="width:auto;"> Remember me
+          </label>
+          <a href="forgot-password.html" style="color:var(--info); font-weight:600;">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-gold btn-block" id="loginSubmitBtn">
+          Sign in <i class="bi bi-arrow-right"></i>
+        </button>
+      </form>
+
+      <p class="auth-foot-link">Trouble signing in? Contact your campus administrator.</p>
+      <p class="auth-foot-link">New teacher or student? <a href="register.html">Create an account</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>
