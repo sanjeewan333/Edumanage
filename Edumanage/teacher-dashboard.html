@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher · EduManage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="teacher">
+
+<div class="scrim" id="scrim"></div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand-row"><span class="seal">E</span><span>EduManage</span></div>
+    <nav>
+      <div class="nav-group-label">Overview</div>
+      <div class="nav-link" data-section="dashboard" data-title="Dashboard"><i class="bi bi-grid-1x2-fill"></i>Dashboard</div>
+
+      <div class="nav-group-label">Teaching</div>
+      <div class="nav-link" data-section="timetable" data-title="My Timetable"><i class="bi bi-calendar3"></i>My Timetable</div>
+      <div class="nav-link" data-section="courses" data-title="My Courses"><i class="bi bi-journal-bookmark-fill"></i>My Courses</div>
+      <div class="nav-link" data-section="materials" data-title="Learning Materials"><i class="bi bi-folder2-open"></i>Learning Materials</div>
+      <div class="nav-link" data-section="assignments" data-title="Assignments"><i class="bi bi-clipboard-check-fill"></i>Assignments</div>
+
+      <div class="nav-group-label">Students</div>
+      <div class="nav-link" data-section="progress" data-title="Student Progress"><i class="bi bi-graph-up-arrow"></i>Student Progress</div>
+      <div class="nav-link" data-section="attendance" data-title="Attendance"><i class="bi bi-clipboard2-check"></i>Attendance</div>
+
+      <div class="nav-group-label">Account</div>
+      <div class="nav-link" data-section="notifications" data-title="Notifications"><i class="bi bi-bell-fill"></i>Notifications</div>
+      <div class="nav-link" data-section="profile" data-title="Profile"><i class="bi bi-person-circle"></i>Profile</div>
+    </nav>
+    <div class="sidebar-foot">EduManage v1.0 · Teacher Console</div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="icon-btn mobile-topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+        <div class="page-title"><span class="eyebrow">Teacher</span><h1 id="pageTitle">Dashboard</h1></div>
+      </div>
+      <div class="actions">
+        <div class="dropdown-wrap">
+          <button class="icon-btn has-alert" data-dropdown-trigger="notifPanel"><i class="bi bi-bell"></i><span class="dot" id="notifDot"></span></button>
+          <div class="dropdown-panel" id="notifPanel"></div>
+        </div>
+        <div class="dropdown-wrap">
+          <div class="profile-chip" data-dropdown-trigger="profilePanel">
+            <div class="avatar js-avatar-initials"></div>
+            <div class="who"><b id="chromeUserName"></b><span id="chromeUserRole"></span></div>
+            <i class="bi bi-chevron-down" style="font-size:11px; color:var(--slate);"></i>
+          </div>
+          <div class="dropdown-panel" id="profilePanel">
+            <div class="dd-head">My Account</div>
+            <div class="dd-item" data-section-jump="profile"><i class="bi bi-person"></i> Profile settings</div>
+            <div class="dd-item js-logout"><i class="bi bi-box-arrow-right"></i> Log out</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- DASHBOARD -->
+      <section class="content-section" id="section-dashboard">
+        <div class="stat-grid" id="statGrid"></div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Today's Classes</h3></div>
+            <div class="card-body tight"><table class="data-table"><thead><tr><th>Time</th><th>Course</th><th>Room</th></tr></thead><tbody id="dashToday"></tbody></table></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Pending Grading</h3></div>
+            <div class="card-body tight"><table class="data-table"><thead><tr><th>Student</th><th>Assignment</th><th>Submitted</th></tr></thead><tbody id="dashPending"></tbody></table></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MY TIMETABLE -->
+      <section class="content-section" id="section-timetable">
+        <div class="card">
+          <div class="card-head"><h3>Weekly Schedule</h3></div>
+          <div class="card-body tight"><table class="data-table"><thead><tr><th>Day</th><th>Time</th><th>Course</th><th>Classroom</th></tr></thead><tbody id="myTimetableBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- MY COURSES -->
+      <section class="content-section" id="section-courses">
+        <div class="card">
+          <div class="card-head"><h3>Courses I Teach</h3></div>
+          <div class="card-body tight"><table class="data-table"><thead><tr><th>Course</th><th>Category</th><th>Duration</th><th>Enrolled</th><th>Status</th></tr></thead><tbody id="myCoursesBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- LEARNING MATERIALS -->
+      <section class="content-section" id="section-materials">
+        <div class="card">
+          <div class="table-toolbar">
+            <h3 style="margin:0;">Uploaded Materials</h3>
+            <button class="btn btn-gold btn-sm" onclick="openMaterialModal()"><i class="bi bi-upload"></i> Upload Material</button>
+          </div>
+          <div class="card-body tight"><table class="data-table"><thead><tr><th>File</th><th>Course</th><th>Uploaded</th><th>Actions</th></tr></thead><tbody id="materialsBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- ASSIGNMENTS -->
+      <section class="content-section" id="section-assignments">
+        <div class="card">
+          <div class="table-toolbar">
+            <h3 style="margin:0;">My Assignments</h3>
+            <button class="btn btn-gold btn-sm" onclick="openTeacherAssignmentModal()"><i class="bi bi-plus-lg"></i> Create Assignment</button>
+          </div>
+          <div class="card-body tight"><table class="data-table"><thead><tr><th>Title</th><th>Course</th><th>Due</th><th>Submissions</th><th>Status</th><th>Actions</th></tr></thead><tbody id="teacherAssignmentsBody"></tbody></table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Submissions Awaiting Grading</h3></div>
+          <div class="card-body tight"><table class="data-table"><thead><tr><th>Student</th><th>Assignment</th><th>File</th><th>Submitted</th><th>Marks</th><th>Action</th></tr></thead><tbody id="submissionsBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- STUDENT PROGRESS -->
+      <section class="content-section" id="section-progress">
+        <div class="card">
+          <div class="card-head"><h3>Grade Overview</h3></div>
+          <div class="card-body tight"><table class="data-table"><thead><tr><th>Student</th><th>Assignment</th><th>Marks</th><th>Status</th></tr></thead><tbody id="progressBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- ATTENDANCE -->
+      <section class="content-section" id="section-attendance">
+        <div class="card">
+          <div class="table-toolbar">
+            <h3 style="margin:0;">Mark Attendance</h3>
+            <div style="display:flex; gap:10px;">
+              <select class="filter-select" id="attCourseSelect"></select>
+              <input type="date" class="filter-select" id="attDate" value="">
+            </div>
+          </div>
+          <div class="card-body tight"><table class="data-table"><thead><tr><th>Student</th><th>Status</th></tr></thead><tbody id="attendanceBody"></tbody></table></div>
+          <div class="modal-foot" style="justify-content:flex-start; border-top:1px solid var(--line);">
+            <button class="btn btn-gold" onclick="saveAttendance()"><i class="bi bi-check-lg"></i> Save Attendance</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- NOTIFICATIONS -->
+      <section class="content-section" id="section-notifications">
+        <div class="card">
+          <div class="card-head"><h3>Notifications</h3></div>
+          <div class="card-body tight"><table class="data-table"><thead><tr><th>Title</th><th>Message</th><th>Date</th></tr></thead><tbody id="teacherNotifBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="content-section" id="section-profile">
+        <div class="card" style="max-width:520px;">
+          <div class="card-head"><h3>My Profile</h3></div>
+          <div class="card-body">
+            <form id="profileForm">
+              <div class="form-grid">
+                <div class="field"><label>Full name</label><input type="text" id="profName"></div>
+                <div class="field"><label>Email</label><input type="email" id="profEmail"></div>
+              </div>
+              <button class="btn btn-navy" type="submit"><i class="bi bi-check-lg"></i> Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer-strip">
+      <span>© 2026 EduManage — SLIIT Software Engineering Group Project</span>
+      <span>Teacher Console</span>
+    </footer>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="materialModal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>Upload Learning Material</h3><button onclick="closeModal('materialModal')">&times;</button></div>
+    <form id="materialForm">
+      <div class="modal-body">
+        <div class="field"><label>Course</label><select id="matCourse" required></select></div>
+        <div class="field"><label>Title / description</label><input type="text" id="matTitle" required placeholder="e.g. Week 5 lecture slides"></div>
+        <div class="field"><label>File</label><input type="file" id="matFile" required></div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="closeModal('materialModal')">Cancel</button>
+        <button type="submit" class="btn btn-gold">Upload</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="teacherAssignmentModal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>Create Assignment</h3><button onclick="closeModal('teacherAssignmentModal')">&times;</button></div>
+    <form id="teacherAssignmentForm">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field full"><label>Title</label><input type="text" id="tAsgTitle" required></div>
+          <div class="field"><label>Course</label><select id="tAsgCourse" required></select></div>
+          <div class="field"><label>Due date</label><input type="date" id="tAsgDue" required></div>
+          <div class="field"><label>Max marks</label><input type="number" id="tAsgMarks" value="100" required></div>
+          <div class="field full"><label>Instructions</label><textarea id="tAsgInstructions" rows="3" required></textarea></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="closeModal('teacherAssignmentModal')">Cancel</button>
+        <button type="submit" class="btn btn-gold">Publish</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="gradeModal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>Grade Submission</h3><button onclick="closeModal('gradeModal')">&times;</button></div>
+    <form id="gradeForm">
+      <div class="modal-body">
+        <input type="hidden" id="gradeSubId">
+        <p class="text-muted" id="gradeContext" style="margin-bottom:14px;"></p>
+        <div class="field"><label>Marks</label><input type="number" id="gradeMarks" required></div>
+        <div class="field"><label>Feedback</label><textarea id="gradeFeedback" rows="3"></textarea></div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="closeModal('gradeModal')">Cancel</button>
+        <button type="submit" class="btn btn-gold">Save Grade</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/teacher.js"></script>
+</body>
+</html>
